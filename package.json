@@ -1,0 +1,8 @@
+{
+  "name": "veille-feux",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Carte mondiale et calendrier harmonisé des détections de feux MODIS et VIIRS",
+  "type": "module",
+  "scripts": { "start": "node server.mjs" }
+}

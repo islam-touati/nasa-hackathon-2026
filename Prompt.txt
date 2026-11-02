@@ -1,0 +1,147 @@
+Tu es une équipe expérimentée en développement web, télédétection, données géospatiales et visualisation scientifique. Conçois et réalise une application web complète pour le NASA Space Apps Challenge 2026 : « Harmonization of MODIS and VIIRS Hot Spots ».
+
+## Objectif
+
+Créer une application qui aide les services de secours, les gestionnaires de territoire et les scientifiques à explorer l’activité de combustion dans une zone choisie, aujourd’hui et sur plusieurs décennies.
+
+L’application doit réunir les observations de points chauds MODIS et VIIRS dans une interface cohérente. Elle doit aider à repérer les saisons habituelles, les années atypiques, les tendances et les différences entre les observations récentes et l’historique.
+
+L’utilisateur souhaite aussi sélectionner un foyer actif sur la carte et visualiser, sur une ligne de temps allant jusqu’à 72 heures, une estimation de la direction et du corridor de risque selon les prévisions météo.
+
+## Utilisateurs visés
+
+- Équipes de secours et d’alerte précoce
+- Scientifiques et analystes
+- Gestionnaires de territoires et de forêts
+- Responsables locaux de la prévention des incendies
+
+## Fonctionnalités requises
+
+### 1. Carte mondiale interactive
+
+- Afficher une carte du monde avec les détections thermiques récentes de NASA FIRMS.
+- Permettre de filtrer les couches MODIS et VIIRS, et d’afficher clairement le capteur d’origine.
+- Afficher au clic la date et l’heure UTC, le satellite, le capteur, la confiance et la puissance radiative (FRP), lorsque ces champs sont disponibles.
+- Permettre de dessiner une zone d’intérêt ou de saisir ses limites géographiques.
+- Fournir des filtres de période, de capteur, de confiance et, si possible, de puissance radiative.
+- Séparer visuellement les détections satellite observées des risques futurs estimés.
+- Ne pas afficher un endroit sans détection comme preuve qu’il n’y a pas de feu.
+
+### 2. Données en direct et historiques
+
+Utiliser NASA FIRMS comme source de données des points chauds :
+
+- Les observations récentes proviennent de l’API FIRMS et nécessitent une clé MAP_KEY.
+- Les données historiques MODIS et VIIRS peuvent être importées depuis des fichiers CSV officiels FIRMS.
+- L’utilisateur doit pouvoir importer plusieurs fichiers et années, puis les filtrer par zone, période et capteur.
+- Indiquer clairement la couverture temporelle et géographique réellement disponible.
+- Ne jamais inventer de détections ni présenter un jeu d’exemple comme des données réelles.
+- Conserver les données originales et leur provenance : nom du fichier, capteur, satellite, date, heure et champs reçus.
+
+### 3. Harmonisation MODIS et VIIRS
+
+Les deux capteurs ont des résolutions, sensibilités et horaires de passage différents. Ne pas présenter leurs relevés comme directement équivalents sans expliquer le traitement.
+
+Mettre en œuvre et documenter une méthode d’harmonisation qui :
+
+- Normalise les noms de colonnes, coordonnées, dates, heures UTC, unités et catégories de confiance.
+- Préserve les mesures et le capteur d’origine.
+- Distingue le nombre brut d’observations du nombre éventuel d’événements rapprochés estimé.
+- Rend les paramètres de rapprochement configurables et explique leurs limites.
+- Évite de confondre un point FIRMS avec un incendie unique, son périmètre ou sa superficie.
+- Sépare les observations manquantes, les détections de faible confiance et les changements de couverture des capteurs.
+- Présente les limites de l’harmonisation dans l’interface et la documentation.
+
+Si une correction statistique pour rendre les capteurs plus comparables est proposée, expliquer sa méthode, ses hypothèses, les données nécessaires et ses limites. Ne pas affirmer qu’une simple déduplication spatiale constitue une calibration scientifique.
+
+### 4. Calendrier historique d’activité
+
+Créer un calendrier annuel par mois, calculé à partir des données historiques importées, avec :
+
+- Une couleur accessible pour distinguer les volumes faibles et élevés.
+- Le nombre de détections pour chaque mois et chaque année.
+- Un choix de mesure entre observations brutes et, si disponible, événements rapprochés estimés.
+- Des filtres de zone, d’année, de capteur et de période.
+- Un graphique de l’activité par année.
+- Un profil saisonnier moyen ou médian.
+- L’identification du mois et de l’année les plus actifs dans la sélection.
+- Une comparaison du mois en cours avec la médiane historique du même mois.
+- Un indicateur d’anomalie qui précise la période de référence et le nombre d’années disponibles.
+- Une indication visible lorsqu’une année ou un mois est incomplet.
+
+### 5. Analyses et visualisations
+
+Afficher, selon les champs disponibles :
+
+- Le nombre de détections par année, mois et jour.
+- La répartition MODIS / VIIRS.
+- Les catégories de confiance.
+- La FRP moyenne, médiane ou cumulée, clairement définie.
+- Les anomalies par rapport à l’historique.
+- La couverture temporelle et le nombre d’observations analysées.
+
+Utiliser des dénominations exactes : « détections » ou « observations FIRMS », et non « nombre d’incendies » lorsque les données ne permettent pas d’identifier des événements uniques.
+
+### 6. Estimation météo du risque local
+
+Lorsqu’un utilisateur sélectionne une détection, récupérer les prévisions horaires autour de ce point depuis Open-Meteo, si le service est accessible :
+
+- Direction et vitesse du vent, rafales, température, humidité et précipitations.
+- Curseur temporel ou lecture animée de maintenant à 72 heures.
+- Afficher une zone ou un corridor bleu correspondant à une estimation directionnelle.
+- Afficher les conditions météo utilisées et l’heure de validité des prévisions.
+- Décrire l’algorithme, ses variables, ses unités et ses limites.
+- Présenter le résultat comme une estimation exploratoire, pas comme une prédiction opérationnelle de propagation.
+- Ne jamais prétendre modéliser la propagation réelle sans données et modèle adaptés au relief, à la végétation, aux combustibles, à leur humidité et aux moyens de lutte.
+
+### 7. Export et traçabilité
+
+- Permettre d’exporter en CSV les observations correspondant aux filtres actifs.
+- Inclure les colonnes d’origine disponibles et les métadonnées de traitement.
+- Afficher les sources, l’heure de mise à jour, les filtres appliqués et les limites de couverture.
+- Garder les fichiers historiques importés localement dans le navigateur, ou expliquer clairement leur emplacement et leur mode de stockage.
+- Ne pas envoyer les archives de l’utilisateur à un serveur tiers sans son consentement.
+
+## Interface et design
+
+Créer une interface professionnelle, lisible, responsive et adaptée à des utilisateurs qui doivent explorer rapidement des données :
+
+- Navigation distincte : Carte, Calendrier historique, Analyses, Données et méthode.
+- État de chargement, erreurs d’API, clé FIRMS manquante, données absentes et import en cours.
+- Légende explicite pour les capteurs et les différentes couches.
+- Contrastes et couleurs accessibles ; ne pas compter uniquement sur la couleur pour communiquer.
+- Infobulles, titres et unités compréhensibles.
+- Aucune donnée factice présentée comme réelle.
+
+## Architecture et qualité
+
+Avant de coder, inspecte le dépôt existant, son framework et ses instructions locales. Réutilise l’architecture en place lorsqu’elle convient. Ne remplace pas tout le projet sans raison.
+
+Développe une solution exécutable et documentée comprenant :
+
+- Une interface web complète.
+- Le chargement et la normalisation des fichiers CSV FIRMS.
+- L’accès à l’API FIRMS avec gestion sécurisée de la clé.
+- L’accès aux prévisions météo.
+- Les analyses et exports.
+- Un README qui explique l’installation, le lancement, les clés nécessaires, les formats CSV attendus, les sources de données, les limites scientifiques et les étapes pour importer des archives.
+- Une configuration d’exemple sans clé secrète.
+
+Gérer les erreurs réseau, les réponses invalides, les fichiers volumineux et les champs manquants. Éviter les dépendances inutiles et les fonctions simulées laissées en place comme si elles étaient terminées.
+
+## Critères d’acceptation
+
+Le résultat est considéré comme prêt lorsque :
+
+1. L’application démarre selon les instructions du README.
+2. La carte s’affiche même si aucune clé FIRMS n’est encore configurée.
+3. L’utilisateur peut ajouter sa clé FIRMS et obtenir des observations récentes.
+4. L’utilisateur peut importer des CSV MODIS et VIIRS, y compris plusieurs années.
+5. Les calendriers et graphiques sont calculés à partir des données réellement importées.
+6. Les filtres de zone, période et capteur changent les résultats.
+7. Les observations restent identifiables par leur capteur et leur provenance.
+8. Le CSV exporté correspond aux filtres appliqués.
+9. Les limites des détections et de la projection météo sont visibles et compréhensibles.
+10. Le README permet à une personne non impliquée dans le développement d’installer et d’utiliser le projet.
+
+Commence par résumer brièvement l’architecture proposée et les choix de traitement. Ensuite, implémente la solution dans le dépôt, explique les fichiers modifiés et indique précisément ce qui fonctionne, ce qui exige une clé ou des archives utilisateur, et ce qui reste limité. Ne masque pas les limites scientifiques derrière un score de risque artificiellement précis.
