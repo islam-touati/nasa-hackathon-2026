@@ -2,3 +2,7 @@ node_modules/
 .env
 .DS_Store
 Thumbs.db
+archives/
+*.zip
+__pycache__/
+*.py[cod]

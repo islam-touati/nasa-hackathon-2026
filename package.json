@@ -4,5 +4,11 @@
   "private": true,
   "description": "Carte mondiale et calendrier harmonisé des détections de feux MODIS et VIIRS",
   "type": "module",
-  "scripts": { "start": "node server.mjs" }
+  "scripts": {
+    "start": "node server.mjs",
+    "import:firms": "node scripts/import-firms.mjs"
+  },
+  "dependencies": {
+    "pg": "^8.13.1"
+  }
 }
